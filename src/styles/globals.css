@@ -1,0 +1,74 @@
+/* src/styles/globals.css */
+/* Global styles and custom properties */
+:root {
+  --color-primary: #8b5cf6;
+  --color-secondary: #ec4899;
+  --color-accent: #06d6a0;
+  --color-background: #0f172a;
+  --color-surface: rgba(0, 0, 0, 0.3);
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #d1d5db;
+  --color-text-muted: #9ca3af;
+  
+  /* High contrast mode colors */
+  --color-high-contrast-bg: #000000;
+  --color-high-contrast-text: #ffffff;
+  --color-high-contrast-accent: #ffff00;
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  :root {
+    --color-background: var(--color-high-contrast-bg);
+    --color-text-primary: var(--color-high-contrast-text);
+    --color-primary: var(--color-high-contrast-accent);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #8b5cf6, #ec4899);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #7c3aed, #db2777);
+}
+
+/* Firefox scrollbar */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #8b5cf6 rgba(255, 255, 255, 0.1);
+}
+
+/* Selection colors */
+::selection {
+  background: rgba(139, 92, 246, 0.3);
+  color: white;
+}
+
+::-moz-selection {
+  background: rgba(139, 92, 246, 0.3);
+  color: white;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+}
+
