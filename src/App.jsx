@@ -1,77 +1,65 @@
-// src/App.jsx - Final Complete Version
-import React, { useState, useEffect, useRef } from 'react';
-import Navigation from '@components/Navigation/Navigation';
-import HeroSection from '@components/Sections/HeroSection';
-import ProcessSection from '@components/Sections/ProcessSection';
-import SkillsSection from '@components/Sections/SkillsSection';
-import EnginesSection from '@components/Sections/EnginesSection';
-import ProjectsSection from '@components/Sections/ProjectsSection';
-import EnhancedResourcesSection from '@components/Sections/EnhancedResourcesSection';
-import FeaturesSection from '@components/Sections/FeaturesSection';
-import StatsSection from '@components/Sections/StatsSection';
-import CTASection from '@components/Sections/CTASection';
-import Footer from '@components/Footer/Footer';
-import AccessibilityControls from '@components/UI/AccessibilityControls';
-import ProgressBar from '@components/UI/ProgressBar';
-import ScrollToTop from '@components/UI/ScrollToTop';
-import BackgroundElements from '@components/UI/BackgroundElements';
+// src/App.jsx
+import React, { useState, useRef, useEffect } from 'react';
+import Navigation from './components/Navigation/Navigation.jsx';
+import HeroSection from './components/Sections/HeroSection.jsx';
+import FeaturesSection from './components/Sections/FeaturesSection.jsx';
+import SkillsSection from './components/Sections/SkillsSection.jsx';
+import EnginesSection from './components/Sections/EnginesSection.jsx';
+import ProjectsSection from './components/Sections/ProjectsSection.jsx';
+import EnhancedResourcesSection from './components/Sections/EnhancedResourcesSection.jsx';
+import ProcessSection from './components/Sections/ProcessSection.jsx';
+import StatsSection from './components/Sections/StatsSection.jsx';
+import CTASection from './components/Sections/CTASection.jsx';
+import Footer from './components/Footer/Footer.jsx';
+import ProgressBar from './components/UI/ProgressBar.jsx';
+import ScrollToTop from './components/UI/ScrollToTop.jsx';
+import BackgroundElements from './components/UI/BackgroundElements.jsx';
+import AccessibilityControls from './components/UI/AccessibilityControls.jsx';
+import useAccessibility from './hooks/useAccessibility.js';
+import useScrollProgress from './hooks/useScrollProgress.js';
+import useIntersectionObserver from './hooks/useIntersectionObserver.js';
 
-import useScrollProgress from '@hooks/useScrollProgress';
-import useAccessibility from '@hooks/useAccessibility';
-import useIntersectionObserver from '@hooks/useIntersectionObserver';
+function App() {
+  // Accessibility state
+  const { 
+    reducedMotion, 
+    highContrast, 
+    toggleReducedMotion, 
+    toggleHighContrast 
+  } = useAccessibility();
 
-const App = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [activeSection, setActiveSection] = useState(0);
-  const [activeStep, setActiveStep] = useState(0);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [loadedSections, setLoadedSections] = useState(new Set([0]));
-
+  // Scroll progress
   const { scrollProgress, showScrollTop } = useScrollProgress();
-  const { reducedMotion, highContrast, toggleReducedMotion, toggleHighContrast } = useAccessibility();
+
+  // Navigation and sections
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [loadedSections, setLoadedSections] = useState(new Set([0])); // Hero is loaded by default
 
   // Section refs
   const heroRef = useRef(null);
-  const processRef = useRef(null);
+  const featuresRef = useRef(null);
   const skillsRef = useRef(null);
   const enginesRef = useRef(null);
   const projectsRef = useRef(null);
   const resourcesRef = useRef(null);
+  const processRef = useRef(null);
 
+  // Section configuration
   const sections = [
     { name: 'Home', ref: heroRef },
-    { name: 'How to Build', ref: processRef },
+    { name: 'Features', ref: featuresRef },
     { name: 'Skills', ref: skillsRef },
     { name: 'Engines', ref: enginesRef },
     { name: 'Projects', ref: projectsRef },
     { name: 'Resources', ref: resourcesRef }
   ];
 
-  // Intersection observer for lazy loading
+  // Setup intersection observer for lazy loading
   useIntersectionObserver(sections, setLoadedSections);
 
-  useEffect(() => {
-    setIsVisible(true);
-    
-    // Auto-cycling animations (only if motion not reduced)
-    let interval, stepInterval;
-    if (!reducedMotion) {
-      interval = setInterval(() => {
-        setActiveSection(prev => (prev + 1) % 4);
-      }, 3000);
-      stepInterval = setInterval(() => {
-        setActiveStep(prev => (prev + 1) % 7);
-      }, 4000);
-    }
-
-    return () => {
-      if (interval) clearInterval(interval);
-      if (stepInterval) clearInterval(stepInterval);
-    };
-  }, [reducedMotion]);
-
+  // Scroll to section function
   const scrollToSection = (ref) => {
-    if (ref.current) {
+    if (ref && ref.current) {
       ref.current.scrollIntoView({ 
         behavior: reducedMotion ? 'auto' : 'smooth',
         block: 'start'
@@ -80,29 +68,51 @@ const App = () => {
     }
   };
 
+  // Hero visibility state
+  const [heroVisible, setHeroVisible] = useState(false);
+
+  useEffect(() => {
+    // Trigger hero animation after component mounts
+    const timer = setTimeout(() => setHeroVisible(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Apply high contrast class to body
+  useEffect(() => {
+    if (highContrast) {
+      document.body.classList.add('high-contrast');
+    } else {
+      document.body.classList.remove('high-contrast');
+    }
+  }, [highContrast]);
+
   return (
-    <div className={`min-h-screen ${highContrast ? 'bg-black text-white' : 'bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white'} overflow-hidden`}>
-      {/* Skip to content link */}
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white relative overflow-x-hidden">
+      {/* Skip link for accessibility */}
       <a 
         href="#main-content" 
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-purple-600 text-white px-4 py-2 rounded-md z-50"
+        className="skip-link"
+        onFocus={(e) => e.target.scrollIntoView()}
       >
         Skip to main content
       </a>
 
+      {/* Background Elements */}
+      <BackgroundElements show={!reducedMotion} />
+
+      {/* Progress Bar */}
+      <ProgressBar scrollProgress={scrollProgress} />
+
       {/* Accessibility Controls */}
-      <AccessibilityControls 
+      <AccessibilityControls
         reducedMotion={reducedMotion}
         highContrast={highContrast}
         onToggleReducedMotion={toggleReducedMotion}
         onToggleHighContrast={toggleHighContrast}
       />
 
-      {/* Progress Bar */}
-      <ProgressBar scrollProgress={scrollProgress} />
-
       {/* Navigation */}
-      <Navigation 
+      <Navigation
         sections={sections}
         isMenuOpen={isMenuOpen}
         setIsMenuOpen={setIsMenuOpen}
@@ -110,64 +120,62 @@ const App = () => {
         reducedMotion={reducedMotion}
       />
 
-      {/* Background Elements */}
-      <BackgroundElements show={!reducedMotion && !highContrast} />
-
       {/* Main Content */}
       <main>
-        <HeroSection 
+        {/* Hero Section */}
+        <HeroSection
           ref={heroRef}
-          isVisible={isVisible}
+          isVisible={heroVisible}
           reducedMotion={reducedMotion}
         />
-        
-        <ProcessSection 
-          ref={processRef}
-          loadedSections={loadedSections}
-          activeStep={activeStep}
-          setActiveStep={setActiveStep}
+
+        {/* Features Section */}
+        <FeaturesSection
+          ref={featuresRef}
           reducedMotion={reducedMotion}
         />
-        
-        <SkillsSection 
-          ref={skillsRef}
-          loadedSections={loadedSections}
-          activeSection={activeSection}
-          reducedMotion={reducedMotion}
-          highContrast={highContrast}
-        />
-        
-        <EnginesSection 
+
+        {/* Skills Section */}
+        <SkillsSection ref={skillsRef} />
+
+        {/* Game Engines Section */}
+        <EnginesSection
           ref={enginesRef}
           loadedSections={loadedSections}
         />
-        
-        <ProjectsSection 
+
+        {/* Projects Section */}
+        <ProjectsSection
           ref={projectsRef}
           loadedSections={loadedSections}
         />
-        
-        <EnhancedResourcesSection 
+
+        {/* Enhanced Resources Section */}
+        <EnhancedResourcesSection
           ref={resourcesRef}
           loadedSections={loadedSections}
         />
-        
-        <FeaturesSection reducedMotion={reducedMotion} />
-        
+
+        {/* Process Section */}
+        <ProcessSection ref={processRef} />
+
+        {/* Stats Section */}
         <StatsSection />
-        
+
+        {/* CTA Section */}
         <CTASection />
       </main>
 
+      {/* Footer */}
       <Footer />
 
-      {/* Scroll to Top */}
-      <ScrollToTop 
+      {/* Scroll to Top Button */}
+      <ScrollToTop
         show={showScrollTop}
         reducedMotion={reducedMotion}
       />
     </div>
   );
-};
+}
 
 export default App;

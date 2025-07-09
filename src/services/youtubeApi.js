@@ -1,5 +1,5 @@
 // src/services/youtubeApi.js
-const YOUTUBE_API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY || 'YOUR_API_KEY_HERE';
+const YOUTUBE_API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY || 'YOUR_API_KEY_HERE';
 const YOUTUBE_API_BASE_URL = 'https://www.googleapis.com/youtube/v3';
 
 class YouTubeService {

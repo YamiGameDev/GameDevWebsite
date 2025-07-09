@@ -26,3 +26,5 @@ const AccessibilityControls = ({
     </div>
   );
 };
+
+export default AccessibilityControls;

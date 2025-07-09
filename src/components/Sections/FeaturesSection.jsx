@@ -1,10 +1,10 @@
 // src/components/Sections/FeaturesSection.jsx
-import React from 'react';
-import { features } from '@data/features';
+import React, { forwardRef } from 'react';
+import { features } from '../../data/features.js';
 
-const FeaturesSection = ({ reducedMotion }) => {
+const FeaturesSection = forwardRef(({ reducedMotion }, ref) => {
   return (
-    <section className="relative z-10 py-20 px-4 bg-black/20" aria-labelledby="features-title">
+    <section ref={ref} className="relative z-10 py-20 px-4 bg-black/20" aria-labelledby="features-title">
       <div className="max-w-6xl mx-auto">
         <h2 id="features-title" className="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
           Why Learn With Us?
@@ -30,6 +30,7 @@ const FeaturesSection = ({ reducedMotion }) => {
       </div>
     </section>
   );
-};
+});
 
+FeaturesSection.displayName = 'FeaturesSection';
 export default FeaturesSection;

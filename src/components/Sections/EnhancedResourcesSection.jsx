@@ -1,13 +1,13 @@
 // src/components/Sections/EnhancedResourcesSection.jsx
 import React, { useState, useEffect, forwardRef } from 'react';
-import { ChevronDown, ChevronUp, Play, Loader2, AlertCircle, Refresh } from 'lucide-react';
-import YouTubeVideoCard from '@components/UI/YouTubeVideoCard';
-import YouTubeVideoModal from '@components/UI/YouTubeVideoModal';
-import YouTubeService from '@services/youtubeApi';
-import { learningResources } from '@data/learningResources';
-import { youtubeQueries } from '@data/youtubeQueries';
+import { ChevronDown, ChevronUp, Play, Loader2, AlertCircle, RefreshCw } from 'lucide-react';
+import YouTubeVideoCard from '../UI/YouTubeVideoCard.jsx';
+import YouTubeVideoModal from '../UI/YouTubeVideoModal.jsx';
+import YouTubeService from '../../services/youtubeApi.js';
+import { learningResources } from '../../data/learningResources.js';
+import { youtubeQueries } from '../../data/youtubeQueries.js';
 
-const EnhancedResourcesSection = forwardRef(({ loadedSections }, ref) => {
+const EnhancedResourcesSection = forwardRef(({ loadedSections = new Set([5]) }, ref) => {
   const [expandedCategories, setExpandedCategories] = useState(new Set(['Programming']));
   const [videoData, setVideoData] = useState({});
   const [loadingVideos, setLoadingVideos] = useState({});
@@ -187,7 +187,7 @@ const EnhancedResourcesSection = forwardRef(({ loadedSections }, ref) => {
                               onClick={() => retryLoadVideos(category.category)}
                               className="text-sm text-purple-400 hover:text-purple-300 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-purple-500 rounded"
                             >
-                              <Refresh className="w-4 h-4" />
+                              <RefreshCw className="w-4 h-4" />
                               Retry
                             </button>
                           )}
