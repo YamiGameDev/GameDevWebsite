@@ -2,7 +2,7 @@
 import React, { forwardRef } from 'react';
 import { pathways } from '../../data/pathways.js';
 
-const SkillsSection = forwardRef((props, ref) => {
+const SkillsSection = forwardRef(({ onQuizOpen }, ref) => {
   // Add safety check for pathways data
   const safePathways = Array.isArray(pathways) ? pathways : [];
 
@@ -11,12 +11,68 @@ const SkillsSection = forwardRef((props, ref) => {
     console.warn('No pathways data found. Please check your pathways.js file.');
   }
 
+  const handleQuizClick = (quizType) => {
+    if (onQuizOpen) {
+      onQuizOpen(quizType);
+    }
+  };
+
   return (
     <section ref={ref} className="py-20 px-4 bg-black/20" aria-labelledby="skills-title">
       <div className="max-w-6xl mx-auto">
         <h2 id="skills-title" className="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
           Master These Skills
         </h2>
+        
+        {/* Quiz Assessment Cards */}
+        <div className="mb-16">
+          <h3 className="text-2xl font-bold text-center mb-8 text-purple-400">
+            Test Your Current Skills
+          </h3>
+          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-purple-500/50 transition-all duration-300 text-center">
+              <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-white font-bold text-lg">{'<>'}</span>
+              </div>
+              <h4 className="text-lg font-semibold text-white mb-2">Programming</h4>
+              <p className="text-gray-300 text-sm mb-4">Test your coding and logic skills</p>
+              <button
+                onClick={() => handleQuizClick('programming')}
+                className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium"
+              >
+                Take Quiz
+              </button>
+            </div>
+
+            <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-purple-500/50 transition-all duration-300 text-center">
+              <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-white font-bold text-lg">🎨</span>
+              </div>
+              <h4 className="text-lg font-semibold text-white mb-2">Game Design</h4>
+              <p className="text-gray-300 text-sm mb-4">Evaluate your design knowledge</p>
+              <button
+                onClick={() => handleQuizClick('design')}
+                className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium"
+              >
+                Take Quiz
+              </button>
+            </div>
+
+            <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-purple-500/50 transition-all duration-300 text-center">
+              <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-white font-bold text-lg">⚙️</span>
+              </div>
+              <h4 className="text-lg font-semibold text-white mb-2">Game Engines</h4>
+              <p className="text-gray-300 text-sm mb-4">Test your engine expertise</p>
+              <button
+                onClick={() => handleQuizClick('engines')}
+                className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium"
+              >
+                Take Quiz
+              </button>
+            </div>
+          </div>
+        </div>
         
         {safePathways.length > 0 ? (
           <div className="grid md:grid-cols-2 gap-8">

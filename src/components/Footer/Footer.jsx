@@ -1,7 +1,7 @@
 // src/components/Footer/Footer.jsx
 import React from 'react';
 
-const Footer = () => {
+const Footer = ({ onContactOpen, onResourceOpen }) => {
   const footerSections = [
     {
       title: "Game Dev Academy",
@@ -51,8 +51,24 @@ const Footer = () => {
   };
 
   const handleLinkClick = (linkText) => {
-    // Placeholder for actual navigation logic
-    console.log(`Navigate to: ${linkText}`);
+    // Handle specific functional links
+    switch (linkText) {
+      case 'Project Templates':
+      case 'Asset Libraries':
+      case 'Learning Roadmaps':
+      case 'Video Tutorials':
+      case 'Documentation':
+      case 'Code Examples':
+        onResourceOpen && onResourceOpen();
+        break;
+      case 'Help Center':
+      case 'Career Services':
+        onContactOpen && onContactOpen('general');
+        break;
+      default:
+        // Placeholder for other navigation logic
+        console.log(`Navigate to: ${linkText}`);
+    }
   };
 
   return (
@@ -87,8 +103,26 @@ const Footer = () => {
           ))}
         </div>
         
+        {/* Quick Action Buttons */}
+        <div className="mt-8 pt-6 border-t border-white/10">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
+            <button
+              onClick={() => onResourceOpen && onResourceOpen()}
+              className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg transition-colors font-medium"
+            >
+              Browse Free Resources
+            </button>
+            <button
+              onClick={() => onContactOpen && onContactOpen('general')}
+              className="border-2 border-purple-600 text-purple-400 hover:bg-purple-600 hover:text-white px-6 py-2 rounded-lg transition-colors font-medium"
+            >
+              Get Support
+            </button>
+          </div>
+        </div>
+        
         {/* Footer Bottom */}
-        <div className="border-t border-white/10 mt-8 pt-8">
+        <div className="border-t border-white/10 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-center md:text-left">
               <p className="text-gray-400">
@@ -114,8 +148,8 @@ const Footer = () => {
                 Terms of Service
               </button>
               <button
-                onClick={() => handleLinkClick('Contact Us')}
-                onKeyDown={(e) => handleKeyDown(e, () => handleLinkClick('Contact Us'))}
+                onClick={() => onContactOpen && onContactOpen('general')}
+                onKeyDown={(e) => handleKeyDown(e, () => onContactOpen && onContactOpen('general'))}
                 className="text-gray-400 hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-black rounded-sm"
                 aria-label="Contact Us"
               >

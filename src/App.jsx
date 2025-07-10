@@ -1,4 +1,3 @@
-// src/App.jsx
 import React, { useState, useRef, useEffect } from 'react';
 import Navigation from './components/Navigation/Navigation.jsx';
 import HeroSection from './components/Sections/HeroSection.jsx';
@@ -12,11 +11,11 @@ import StatsSection from './components/Sections/StatsSection.jsx';
 import CTASection from './components/Sections/CTASection.jsx';
 import Footer from './components/Footer/Footer.jsx';
 import ProgressBar from './components/UI/ProgressBar.jsx';
-import ScrollToTop from './components/UI/ScrollToTop.jsx';
+import ScrollToTop from './components/UI/ScrollToTop.jsx'
 import BackgroundElements from './components/UI/BackgroundElements.jsx';
 import GamingParticles from './components/UI/GamingParticples.jsx';
-import AccessibilityControls from './components/UI/AccessibilityControls.jsx';
-import useAccessibility from './hooks/useAccessibility.js';
+import AccessibilityControls from './components/UI/AccessibilityControls.jsx'
+import useAccessibility from './hooks/useAccessibility.js'
 import useScrollProgress from './hooks/useScrollProgress.js';
 import useIntersectionObserver from './hooks/useIntersectionObserver.js';
 

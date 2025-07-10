@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import { ChevronDown } from 'lucide-react';
 
-const HeroSection = forwardRef(({ isVisible, reducedMotion }, ref) => {
+const HeroSection = forwardRef(({ isVisible, reducedMotion, onEnrollmentOpen, onProjectShowcaseOpen }, ref) => {
   return (
     <section 
       ref={ref} 
@@ -18,10 +18,18 @@ const HeroSection = forwardRef(({ isVisible, reducedMotion }, ref) => {
             Learn to create games from concept to release. Master programming, design, art, and audio to build the interactive experiences of tomorrow.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button className={`px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full text-lg font-semibold ${!reducedMotion ? 'hover:scale-105' : ''} transition-transform duration-300 shadow-lg hover:shadow-purple-500/25 focus:outline-none focus:ring-4 focus:ring-purple-500/50`}>
+            {/* Start Learning Today Button */}
+            <button
+              onClick={() => onEnrollmentOpen && onEnrollmentOpen()}
+              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105"
+            >
               Start Learning Today
             </button>
-            <button className="px-8 py-4 border-2 border-white/20 rounded-full text-lg font-semibold hover:bg-white/10 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-white/50">
+            {/* View Course Roadmap Button */}
+            <button
+              onClick={() => onProjectShowcaseOpen && onProjectShowcaseOpen()}
+              className="border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300"
+            >
               View Course Roadmap
             </button>
           </div>

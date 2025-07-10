@@ -1,13 +1,13 @@
 // src/components/Sections/EnhancedResourcesSection.jsx
 import React, { useState, useEffect, forwardRef } from 'react';
-import { ChevronDown, ChevronUp, Play, Loader2, AlertCircle, RefreshCw } from 'lucide-react';
+import { ChevronDown, ChevronUp, Play, Loader2, AlertCircle, RefreshCw, Download } from 'lucide-react';
 import YouTubeVideoCard from '../UI/YouTubeVideoCard.jsx';
 import YouTubeVideoModal from '../UI/YouTubeVideoModal.jsx';
 import YouTubeService from '../../services/youtubeApi.js';
 import { learningResources } from '../../data/learningResources.js';
 import { youtubeQueries } from '../../data/youtubeQueries.js';
 
-const EnhancedResourcesSection = forwardRef(({ loadedSections = new Set([5]) }, ref) => {
+const EnhancedResourcesSection = forwardRef(({ loadedSections = new Set([5]), onResourceOpen }, ref) => {
   const [expandedCategories, setExpandedCategories] = useState(new Set(['Programming']));
   const [videoData, setVideoData] = useState({});
   const [loadingVideos, setLoadingVideos] = useState({});
@@ -121,9 +121,23 @@ const EnhancedResourcesSection = forwardRef(({ loadedSections = new Set([5]) }, 
     <section ref={ref} className="relative z-10 py-20 px-4" aria-labelledby="resources-title">
       {loadedSections.has(5) && (
         <div className="max-w-6xl mx-auto">
-          <h2 id="resources-title" className="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+          <h2 id="resources-title" className="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-8 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
             Essential Learning Resources
           </h2>
+          
+          {/* Resource Library CTA */}
+          <div className="text-center mb-16">
+            <p className="text-lg text-gray-300 mb-6 max-w-2xl mx-auto">
+              Access our comprehensive library of downloadable resources, templates, and assets to accelerate your learning.
+            </p>
+            <button
+              onClick={() => onResourceOpen && onResourceOpen()}
+              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 flex items-center gap-2 mx-auto"
+            >
+              <Download className="w-5 h-5" />
+              Browse All Resources
+            </button>
+          </div>
           
           <div className="space-y-8">
             {learningResources.map((category, index) => {
@@ -164,7 +178,16 @@ const EnhancedResourcesSection = forwardRef(({ loadedSections = new Set([5]) }, 
                     >
                       {/* Traditional Resources */}
                       <div>
-                        <h4 className="text-lg font-semibold text-white mb-4">Recommended Resources</h4>
+                        <div className="flex items-center justify-between mb-4">
+                          <h4 className="text-lg font-semibold text-white">Recommended Resources</h4>
+                          <button
+                            onClick={() => onResourceOpen && onResourceOpen()}
+                            className="text-sm text-purple-400 hover:text-purple-300 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-purple-500 rounded px-2 py-1"
+                          >
+                            <Download className="w-4 h-4" />
+                            Download Resources
+                          </button>
+                        </div>
                         <ul className="grid md:grid-cols-2 gap-3" role="list">
                           {category.resources.map((resource, resourceIndex) => (
                             <li key={resourceIndex} className="flex items-start gap-3" role="listitem">
