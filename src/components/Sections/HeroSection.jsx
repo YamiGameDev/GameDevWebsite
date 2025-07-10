@@ -17,6 +17,7 @@ const HeroSection = forwardRef(({ isVisible, reducedMotion, onEnrollmentOpen, on
           <p className="text-lg md:text-xl lg:text-2xl mb-8 text-gray-300 max-w-3xl mx-auto">
             Learn to create games from concept to release. Master programming, design, art, and audio to build the interactive experiences of tomorrow.
           </p>
+          
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             {/* Start Learning Today Button */}
             <button
@@ -25,6 +26,7 @@ const HeroSection = forwardRef(({ isVisible, reducedMotion, onEnrollmentOpen, on
             >
               Start Learning Today
             </button>
+            
             {/* View Course Roadmap Button */}
             <button
               onClick={() => onProjectShowcaseOpen && onProjectShowcaseOpen()}
