@@ -14,6 +14,7 @@ import Footer from './components/Footer/Footer.jsx';
 import ProgressBar from './components/UI/ProgressBar.jsx';
 import ScrollToTop from './components/UI/ScrollToTop.jsx';
 import BackgroundElements from './components/UI/BackgroundElements.jsx';
+import GamingParticles from './components/UI/GamingParticples.jsx';
 import AccessibilityControls from './components/UI/AccessibilityControls.jsx';
 import useAccessibility from './hooks/useAccessibility.js';
 import useScrollProgress from './hooks/useScrollProgress.js';
@@ -99,6 +100,9 @@ function App() {
 
       {/* Background Elements */}
       <BackgroundElements show={!reducedMotion} />
+
+      {/* Gaming Particles - Only show if animations are enabled */}
+      {!reducedMotion && <GamingParticles />}
 
       {/* Progress Bar */}
       <ProgressBar scrollProgress={scrollProgress} />
